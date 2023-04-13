@@ -1,9 +1,9 @@
 <template>
   <Layout class-prefix="layout">
-    <NumberPad @update:value="onUpdateAmount" @submit="saveRecord"></NumberPad>
-    <Types :value.sync= "record.type" ></Types>
-    <Notes @update:value="onUpdateNotes"></Notes>
-    <Tags :data-source.sync="tags" @update:value="onUpdateTags"></Tags>
+    <NumberPad @update:value="onUpdateAmount" @submit="saveRecord" />
+    <Types :value.sync= "record.type" />
+    <Notes @update:value="onUpdateNotes" />
+    <Tags :data-source.sync="tags" @update:value="onUpdateTags" />
   </Layout>
 </template>
 
@@ -14,18 +14,20 @@ import Notes from '@/components/Money/Notes.vue';
 import Tags from '@/components/Money/Tags.vue';
 import Vue from 'vue';
 import {Component, Watch} from 'vue-property-decorator';
-import model from '@/model';
+import recordListModel from '@/models/recordListModel';
+import tagListModel from '@/models/tagListModel';
 
 
 
-const recordList = model.fetch();
+const recordList = recordListModel.fetch();
+const tagList = tagListModel.fetch();
 
 
 @Component({
   components: {Tags, Notes, Types, NumberPad},
 })
 export default class Money extends Vue{
-  tags = ['衣','食','住','行'] ;
+  tags = tagList ;
   recordList : RecordItem[]= recordList ;
   record : RecordItem = {
     tags:[],notes:'',type:'-',amount:0
@@ -40,13 +42,13 @@ export default class Money extends Vue{
     this.record.amount = parseFloat(value);
   }
   saveRecord(){
-    const deepClone:RecordItem = model.clone(this.record);
+    const deepClone:RecordItem = recordListModel.clone(this.record);
     deepClone.createdAt = new Date();
     this.recordList.push(deepClone);
   }
   @Watch('recordList')
   onRecordListChange(){
-    model.save(this.recordList);
+    recordListModel.save(this.recordList);
 
   }
 };
