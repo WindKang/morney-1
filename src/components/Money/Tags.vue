@@ -41,11 +41,12 @@
 
 <style lang="scss" scoped>
   .tags{
-  flex-grow: 1;
-  font-size: 14px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column-reverse;
+    background: white;
+    flex-grow: 1;
+    font-size: 14px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column-reverse;
   > .current{
     display: flex;
     flex-wrap: wrap;
