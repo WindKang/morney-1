@@ -3,13 +3,13 @@ type RecordItem = {
   notes: string;
   type: string;
   amount: number;
-  createdAt?: Date  ;
+  createdAt?: Date;
 }
 type Tag = {
   id: string;
   name: string;
 }
-type tagListModel= {
+type tagListModel = {
   data: Tag[],
   fetch: () => Tag[],
   create: (name: string) => 'success' | 'duplicated', //联合类型
@@ -19,6 +19,7 @@ type tagListModel= {
 }
 
 
-interface Window{
+interface Window {
   tagList: Tag[];
+  createTag: (name: string) => void;
 }
