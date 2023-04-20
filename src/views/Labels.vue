@@ -37,8 +37,9 @@ export default class Labels extends mixins(TagHelper) {
   }
 
 }
-
 </script>
+
+
 
 <style lang="scss" scoped>
 .tags {
