@@ -6,18 +6,13 @@ import router from '@/router';
 
 Vue.use(Vuex);
 
-type Rootstate = {
-  recordList: RecordItem[],
-  tagList: Tag[],
-  currentTag?: Tag,
-}
 
 const store = new Vuex.Store({
   state: {
     recordList: [],
     tagList: [],
     currentTag: undefined,
-  } as Rootstate,
+  } as RootState,
   mutations: {
     setCurrentTag(state, id: string) {
       state.currentTag = state.tagList.filter(t => t.id === id)[0];
@@ -57,7 +52,7 @@ const store = new Vuex.Store({
     },
     createRecord(state, record) {
       const deepClone: RecordItem = clone(record);
-      deepClone.createdAt = new Date();
+      deepClone.createdAt = new Date().toISOString();
       state.recordList?.push(deepClone);//可选链语法
       store.commit('saveRecords');
     },
