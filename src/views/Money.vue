@@ -6,9 +6,10 @@
     <div class="notes">
       <FormItem filed-name="备注:"
                 placeholder="在这里输入备注"
-                @update:value="onUpdateNotes"/>
+                :value.sync="record.notes"
+                />
     </div>
-    <Tags/>
+    <Tags @update:value="record.tags = $event"/>
   </Layout>
 </template>
 
@@ -37,6 +38,7 @@ export default class Money extends Vue {
 
   created() {
     this.$store.commit('fetchRecords');
+    this.$store.commit('fetchTags');
   }
 
   onUpdateNotes(value: string) {
@@ -48,7 +50,16 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
+    if (this.record.tags.length === 0 || !this.record.tags) {
+      return window.alert('请选择标签');
+    }
     this.$store.commit('createRecord', this.record);
+    if (this.$store.state.createRecordError === null) {
+      window.alert('保存成功');
+      this.record = {
+        tags: [], notes: '', type: '-', amount: 0
+      };
+    }
   }
 };
 </script>
@@ -58,6 +69,7 @@ export default class Money extends Vue {
   display: flex;
   flex-direction: column-reverse;
 }
+
 .notes {
   padding: 12px 0;
 }
